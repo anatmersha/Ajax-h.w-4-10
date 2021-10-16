@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button type="button" onclick="loadDoc()">request</button>
+    <ul id="list"></ul>
+
+    <script>
+        // ajax .7 b
+        const list = document.getElementById('list');
+
+        function loadDoc() {
+            const xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState === 4 && this.status === 200) {
+                    const response = this.responseText;
+                    const respontObj = JSON.parse(response);
+                    console.log(respontObj);
+                    for (let i = 0; i < respontObj.length; i++) {
+                        list.innerHTML += `<li>${respontObj[i].title}</li>
+                <li>${respontObj[i].userId}</li>`;
+                    }
+                } else {
+                    para.innerHTML = "loading...";
+                }
+            };
+            xhttp.open("GET", "https://jsonplaceholder.typicode.com/posts");
+            xhttp.send();
+        }
+    </script>
+</body>
+
+</html>

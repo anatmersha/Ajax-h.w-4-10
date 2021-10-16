@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button type="button" onclick="loadDoc()">request</button>
+    <script>
+        // ajax .6 b שאלה
+
+        function loadDoc() {
+            const xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState === 4 && this.status === 200) {
+                    const response = this.responseText;
+                    const respontObj = JSON.parse(response);
+                    console.log(respontObj);
+                    for (let i = 0; i < respontObj.length; i++) {
+                        console.log(respontObj[i].title);
+                        console.log(respontObj[i].userId);
+                    }
+
+                }
+            };
+            xhttp.open("GET", "https://jsonplaceholder.typicode.com/posts");
+            xhttp.send();
+        }
+    </script>
+</body>
+
+</html>

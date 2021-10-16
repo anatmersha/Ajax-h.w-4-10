@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=\, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button type="button" onclick="loadDoc()">request</button>
+    <ul id="list"></ul>
+    <p id="para"></p>
+    <script>
+        // // ajax .11 b (א)
+        const list = document.getElementById('list');
+        const para = document.getElementById('para');
+        const listItem = document.getElementsByClassName('listItem');
+
+        function loadDoc() {
+            const xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState === 4 && this.status === 200) {
+                    para.innerHTML = " ";
+                    for (let i = 0; i < respontObj.length; i++) {
+                        list.innerHTML += `
+                        <li class="listItem">${respontObj[i].title}</li>
+                        <li class="listItem">${respontObj[i].id}</li>
+                        <li class="listItem">${respontObj[i].completed}</li>
+                        `;
+                    }
+                    for (let i = 0; i < listItem.length; i++) {
+                        listItem[i].addEventListener("click", () => {
+                            listItem[i].style.display = "none";
+                        })
+                    }
+                } else {
+                    para.innerHTML = "Loading....";
+                }
+            };
+            xhttp.open("GET", "https://jsonplaceholder.typicode.com/todos");
+            xhttp.send();
+        }
+    </script>
+</body>
+
+</html>

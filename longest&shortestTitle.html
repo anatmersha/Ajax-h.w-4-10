@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button type="button" onclick="loadDoc()">request</button>
+    <ul id="list"></ul>
+    <p id="para"></p>
+    <section id="section"></section>
+    <script>
+        // // ajax .11 b )('ב'-ד)
+        const list = document.getElementById('list');
+        const para = document.getElementById('para');
+        const section = document.getElementById('section');
+        const listItem = document.getElementsByClassName('listItem');
+
+        function loadDoc() {
+            const xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState === 4 && this.status === 200) {
+                    const response = this.responseText;
+                    const respontObj = JSON.parse(response);
+                    let longestTitle = respontObj[0].title;
+                    let maxLength = 0;
+                    let shortestTitle = respontObj[0].title;
+                    let minLength = 0;
+                    console.log(respontObj);
+                    for (let i = 0; i < respontObj.length; i++) {
+                        list.innerHTML += `
+                        <li class="listItem">${respontObj[i].title}</li>
+                        <li class="listItem">${respontObj[i].id}</li>
+                        <li class="listItem">${respontObj[i].completed}</li>
+                        `;
+                    }
+                    for (const element of respontObj) {
+                        if (element.title.length > longestTitle.length) {
+                            longestTitle = element.title;
+                            maxLength = element.title.length;
+                            maxId = element.id;
+                        } else if (element.title.length < shortestTitle.length) {
+                            shortestTitle = element.title;
+                            minLength = element.title.length;
+                            minId = element.id;
+                        }
+                    }
+                    section.innerHTML += `
+                    <p style="font-size:18px"><b>Number of Todos: ${respontObj.length}<b></p>
+                    <h1>Longest</h1>
+                    <p style="font-size:18px"><b>Id:</b> ${maxId}</p>
+                    <p style="font-size:18px"><b>Title:</b> ${longestTitle}<br> 
+                    <b>Length:</b> ${maxLength}</p><br>
+
+                    <h1>Shortest</h1>
+                    <p style="font-size:18px"><b>Id:</b> ${minId}</p>
+                    <p style="font-size:18px"><b>Title:</b> ${shortestTitle}<br>
+                    <b>Length:</b> ${minLength}</p>`;
+                }
+            };
+            xhttp.open("GET", "https://jsonplaceholder.typicode.com/todos");
+            xhttp.send();
+        }
+    </script>
+</body>
+
+</html>
